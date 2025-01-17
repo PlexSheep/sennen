@@ -48,8 +48,3 @@ class DictionaryDownloader:
                     f"Successfully downloaded and extracted {name} to {path}")
             except Exception as e:
                 print(f"Error downloading {name}: {str(e)}")
-
-
-if __name__ == "__main__":
-    downloader = DictionaryDownloader()
-    downloader.download_all()

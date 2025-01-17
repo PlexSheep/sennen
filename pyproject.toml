@@ -2,16 +2,17 @@
 name = "sennen"
 version = "0.1.0"
 description = "sennen 「千年」is a static-site-API for daily Japanese Kanji and Words"
-authors = [
-    {name = "PlexSheep",email = "software@cscherr.de"}
-]
-license = {text = "MIT"}
+authors = [{ name = "PlexSheep", email = "software@cscherr.de" }]
+license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
+	"requests>=2.31.0", # For downloading dictionaries
 ]
-
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+sennen = "sennen.main:main" # Optional: if you want CLI functionality
