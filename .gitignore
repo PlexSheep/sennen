@@ -1,5 +1,6 @@
 # Downloaded data
 data/sources/
+data/site/
 
 # Python
 __pycache__/
@@ -9,4 +10,3 @@ __pycache__/
 .venv/
 venv/
 ENV/
-data/generated
