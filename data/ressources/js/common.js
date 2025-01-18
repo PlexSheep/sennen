@@ -3,6 +3,7 @@ const BASE_URL = window.BASE_URL;
 
 // Utility functions for date handling
 function formatDate(date) {
+    date = new Date(date); // I swear I hate JavaScript so much
     return date.toISOString().split("T")[0];
 }
 

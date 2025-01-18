@@ -42,10 +42,15 @@
                 ? "/sennen" // GitHub Pages
                 : ""; // Any other host
 
-            // Dynamically load common.js with correct path
-            const script = document.createElement("script");
-            script.src = `${window.BASE_URL}/js/common.js`;
-            document.head.appendChild(script);
+            // Load common.js and wait for it
+            function loadCommonJs() {
+                return new Promise((resolve) => {
+                    const script = document.createElement("script");
+                    script.src = `${window.BASE_URL}/js/common.js`;
+                    script.onload = resolve;
+                    document.head.appendChild(script);
+                });
+            }
 
             async function updatePage() {
                 const today = new Date();
@@ -54,11 +59,11 @@
                 if (todayData) {
                     const kanji = todayData.kanji;
                     document.getElementById("todayContent").innerHTML = `
-                    <a href="kanji.html?date=${todayData.date}" class="block">
-                        <div class="text-6xl mb-4">${kanji.kanji}</div>
-                        <div class="text-xl">${kanji.meanings.join(", ")}</div>
-                    </a>
-                `;
+                        <a href="kanji.html?date=${todayData.date}" class="block">
+                            <div class="text-6xl mb-4">${kanji.kanji}</div>
+                            <div class="text-xl">${kanji.meanings.join(", ")}</div>
+                        </a>
+                    `;
 
                     // Update navigation links
                     const yesterday = new Date(today);
@@ -75,7 +80,13 @@
                 }
             }
 
-            updatePage();
+            // Initialize page after common.js is loaded
+            async function init() {
+                await loadCommonJs();
+                // Now we can safely call functions from common.js
+                await updatePage();
+            }
+            init();
         </script>
     </body>
 </html>
