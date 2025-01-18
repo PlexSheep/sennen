@@ -8,14 +8,35 @@ function formatDate(date) {
 }
 
 function getNextDay(date) {
-    const next = new Date(date);
-    next.setDate(next.getDate() + 1);
+    // Ensure we're working with a Date object
+    const current = new Date(date);
+    if (isNaN(current.getTime())) {
+        console.error("Invalid date input:", date);
+        return new Date(); // Fallback to current date
+    }
+
+    // Add 48 hours
+    // For some reason this is correct
+    const next = new Date(current.getTime() + 2 * 24 * 60 * 60 * 1000);
+
+    // Reset to midnight for consistency
+    next.setHours(0, 0, 0, 0);
     return next;
 }
 
 function getPreviousDay(date) {
-    const prev = new Date(date);
-    prev.setDate(prev.getDate() - 1);
+    // Ensure we're working with a Date object
+    const current = new Date(date);
+    if (isNaN(current.getTime())) {
+        console.error("Invalid date input:", date);
+        return new Date(); // Fallback to current date
+    }
+
+    // Subtract 24 hours
+    const prev = new Date(current.getTime() - 24 * 60 * 60 * 1000);
+
+    // Reset to midnight for consistency
+    prev.setHours(0, 0, 0, 0);
     return prev;
 }
 
