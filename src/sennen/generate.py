@@ -1,6 +1,7 @@
 import json
 from datetime import datetime, timedelta
 from os import copy_file_range
+import os
 from pathlib import Path
 
 from .parse.kanji import KanjiParser
@@ -8,18 +9,18 @@ from .parse.kanji import KanjiParser
 
 class SiteGenerator:
     def __init__(self, data_dir: Path):
-        self.data_dir = data_dir
-        self.site_dir = data_dir / "site"
+        self.data_dir = data_dir.absolute()
+        self.site_dir = self.data_dir / "site"
         self.api_dir = self.site_dir / "api" / "v1"
         self.api_dir_daily = self.api_dir / "daily"
-        self.sources_dir = data_dir / "sources"
-        self.pages_dir = data_dir / "pages"
+        self.sources_dir = self.data_dir / "sources"
+        self.ressources_dir = self.data_dir / "ressources"
         self.cleanup()
         self.make_dirs()
         self.load_sources()
 
     def make_dirs(self):
-        self.pages_dir.mkdir(parents=True, exist_ok=True)
+        self.ressources_dir.mkdir(parents=True, exist_ok=True)
         self.site_dir.mkdir(parents=True, exist_ok=True)
         self.api_dir.mkdir(parents=True, exist_ok=True)
         self.api_dir_daily.mkdir(parents=True, exist_ok=True)
@@ -77,25 +78,31 @@ class SiteGenerator:
 
         print("(i) Generation of daily contents complete.")
 
-    def copy_pages(self):
-        for page in self.pages_dir.iterdir():
-            page.link_to(self.site_dir / page.name)
+    def link_ressources(self):
+        for ressource in self.ressources_dir.iterdir():
+            os.symlink(self.ressources_dir / ressource, self.site_dir / ressource.name)
 
     def generate_site(self, start_date: datetime, num_days: int):
         print("(i) Generating site...")
 
         self.generate_daily(start_date,num_days)
-        self.copy_pages()
+        self.link_ressources()
 
         print(f"Generation of the site complete. Files saved in {self.site_dir}")
 
-def recursive_remove(dir: Path):
+def recursive_remove(path: Path):
     """basically just `rm -r $dir`"""
-    if not dir.exists():
+    if not path.exists():
         return
-    for item in dir.iterdir():
+    if not path.is_dir():
+        os.remove(path)
+        return
+    if path.is_symlink():
+        os.unlink(path)
+        return
+    for item in path.iterdir():
         if item.is_dir():
             recursive_remove(item)
         else:
             item.unlink()
-    dir.rmdir()
+    path.rmdir()
