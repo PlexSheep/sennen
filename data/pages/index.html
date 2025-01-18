@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>千年 - Daily Japanese</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/tailwindcss@2/dist/tailwind.min.css"
+            rel="stylesheet"
+        />
+    </head>
+    <body class="bg-gray-100">
+        <div class="container mx-auto px-4 py-8">
+            <h1 class="text-4xl font-bold mb-8">千年 - Daily Japanese</h1>
+
+            <div id="today" class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-4">Today's Kanji</h2>
+                <div id="todayContent" class="animate-pulse">Loading...</div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <a
+                    href="#"
+                    id="yesterdayLink"
+                    class="bg-white rounded-lg shadow p-4 hover:shadow-lg transition-shadow"
+                >
+                    Yesterday's Kanji
+                </a>
+                <a
+                    href="#"
+                    id="tomorrowLink"
+                    class="bg-white rounded-lg shadow p-4 hover:shadow-lg transition-shadow"
+                >
+                    Tomorrow's Kanji
+                </a>
+            </div>
+        </div>
+
+        <script>
+            async function loadDailyData(date) {
+                const dateStr = date.toISOString().split("T")[0];
+                try {
+                    const response = await fetch(
+                        `/api/v1/daily/${dateStr}.json`,
+                    );
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    console.error("Error loading data:", error);
+                    return null;
+                }
+            }
+
+            async function updatePage() {
+                const today = new Date();
+                const todayData = await loadDailyData(today);
+
+                if (todayData) {
+                    const kanji = todayData.kanji;
+                    document.getElementById("todayContent").innerHTML = `
+                    <a href="kanji.html?date=${todayData.date}" class="block">
+                        <div class="text-6xl mb-4">${kanji.kanji}</div>
+                        <div class="text-xl">${kanji.meanings.join(", ")}</div>
+                    </a>
+                `;
+
+                    // Update navigation links
+                    const yesterday = new Date(today);
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    const tomorrow = new Date(today);
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+
+                    document.getElementById("yesterdayLink").href =
+                        `kanji.html?date=${yesterday.toISOString().split("T")[0]}`;
+                    document.getElementById("tomorrowLink").href =
+                        `kanji.html?date=${tomorrow.toISOString().split("T")[0]}`;
+                }
+            }
+
+            updatePage();
+        </script>
+    </body>
+</html>
