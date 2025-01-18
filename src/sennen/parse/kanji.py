@@ -25,6 +25,8 @@ class Kanji:
                 len(self.kun_readings) > 0 or len(self.on_readings) > 0
             )  # Has at least one reading
             and self.grade is not None  # Is a grade-level kanji
+            and self.jlpt is not None
+            and self.freq is not None
         )
 
 
@@ -98,4 +100,6 @@ class KanjiParser:
             self.__parse_kanji(char) for char in self.root.findall("character")
         ]
         # Filter out kanji without sufficient learning data
-        return [k for k in all_kanji if k.is_ok()]
+        all = [k for k in all_kanji if k.is_ok()]
+        print(f"(i) loaded {len(all)} kanji")
+        return all
