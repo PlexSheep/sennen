@@ -91,6 +91,8 @@ class SiteGenerator:
 
 def recursive_remove(dir: Path):
     """basically just `rm -r $dir`"""
+    if not dir.exists():
+        return
     for item in dir.iterdir():
         if item.is_dir():
             recursive_remove(item)
