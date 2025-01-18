@@ -2,6 +2,8 @@
 import argparse
 from pathlib import Path
 from .download_dicts import DictionaryDownloader
+from datetime import datetime
+from .generate import DailyGenerator
 
 
 def download_command(args):
@@ -10,8 +12,10 @@ def download_command(args):
 
 
 def generate_command(args):
-    print("Generate command not implemented yet")
-    # TODO: Implement generation of daily JSON files
+    data_dir = Path("data")
+    generator = DailyGenerator(data_dir)
+    start_date = datetime.now()
+    generator.generate_days(start_date, args.days)
 
 
 def main():

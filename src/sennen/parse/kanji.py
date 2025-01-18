@@ -15,6 +15,16 @@ class Kanji:
     kun_readings: List[str]
     on_readings: List[str]
 
+    def is_ok(self) -> bool:
+        """
+        Check if this kanji has enough data to be useful for learning.
+        """
+        return (
+            len(self.meanings) > 0 and  # Has at least one meaning
+            (len(self.kun_readings) > 0 or len(self.on_readings) > 0) and  # Has at least one reading
+            self.grade is not None  # Is a grade-level kanji
+        )
+
 
 class KanjiParser:
     def __init__(self, xml_path: Path):
@@ -73,4 +83,6 @@ class KanjiParser:
 
     def get_all_kanji(self) -> List[Kanji]:
         """Parse all kanji from the XML file."""
-        return [self.__parse_kanji(char) for char in self.root.findall('character')]
+        all_kanji = [self.__parse_kanji(char) for char in self.root.findall('character')]
+        # Filter out kanji without sufficient learning data
+        return [k for k in all_kanji if k.is_ok()]
