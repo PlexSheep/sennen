@@ -1,11 +1,12 @@
 import json
-from datetime import datetime, timedelta
-from os import copy_file_range
 import os
+import random
+from datetime import datetime, timedelta
 from pathlib import Path
 
 from .parse.kanji import KanjiParser
 
+MAGIC_PRIME_NUMBER: int = 104729
 
 class SiteGenerator:
     def __init__(self, data_dir: Path):
@@ -31,15 +32,18 @@ class SiteGenerator:
     def load_sources(self):
         self.kanjidic = KanjiParser(self.sources_dir / "kanjidic.xml")
 
+    def seed_from_date(self, date: datetime) -> int:
+        date_int = int(date.strftime("%Y%m%d"))
+        return date_int * MAGIC_PRIME_NUMBER
+
     def select_kanji_for_date(self, date: datetime, all_kanji: list) -> dict:
         """
         Select a kanji for a specific date.
         Uses the date as a seed to ensure consistent selection.
         """
         # Use date as seed for selection
-        date_int = int(date.strftime("%Y%m%d"))
-        index = date_int % len(all_kanji)
-        kanji = all_kanji[index]
+        rng = random.Random(self.seed_from_date(date))
+        kanji = rng.choice(all_kanji)
 
         return {
             "kanji": kanji.literal,
