@@ -37,19 +37,15 @@
         </div>
 
         <script>
-            async function loadDailyData(date) {
-                const dateStr = date.toISOString().split("T")[0];
-                try {
-                    const response = await fetch(
-                        `/api/v1/daily/${dateStr}.json`,
-                    );
-                    const data = await response.json();
-                    return data;
-                } catch (error) {
-                    console.error("Error loading data:", error);
-                    return null;
-                }
-            }
+            // Define base URL once, will be available for all subsequent scripts
+            window.BASE_URL = window.location.hostname.endsWith("github.io")
+                ? "/sennen" // GitHub Pages
+                : ""; // Any other host
+
+            // Dynamically load common.js with correct path
+            const script = document.createElement("script");
+            script.src = `${window.BASE_URL}/js/common.js`;
+            document.head.appendChild(script);
 
             async function updatePage() {
                 const today = new Date();
@@ -70,10 +66,12 @@
                     const tomorrow = new Date(today);
                     tomorrow.setDate(tomorrow.getDate() + 1);
 
-                    document.getElementById("yesterdayLink").href =
-                        `kanji.html?date=${yesterday.toISOString().split("T")[0]}`;
-                    document.getElementById("tomorrowLink").href =
-                        `kanji.html?date=${tomorrow.toISOString().split("T")[0]}`;
+                    document.getElementById("yesterdayLink").href = getKanjiUrl(
+                        getPreviousDay(today),
+                    );
+                    document.getElementById("tomorrowLink").href = getKanjiUrl(
+                        getNextDay(today),
+                    );
                 }
             }
 

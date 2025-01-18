@@ -41,27 +41,19 @@
         </div>
 
         <script>
-            async function loadKanjiData(date) {
-                try {
-                    const response = await fetch(`/api/v1/daily/${date}.json`);
-                    const data = await response.json();
-                    return data;
-                } catch (error) {
-                    console.error("Error loading data:", error);
-                    return null;
-                }
-            }
+            // Define base URL once, will be available for all subsequent scripts
+            window.BASE_URL = window.location.hostname.endsWith("github.io")
+                ? "/sennen" // GitHub Pages
+                : ""; // Any other host
 
-            function getQueryDate() {
-                const params = new URLSearchParams(window.location.search);
-                return (
-                    params.get("date") || new Date().toISOString().split("T")[0]
-                );
-            }
+            // Dynamically load common.js with correct path
+            const script = document.createElement("script");
+            script.src = `${window.BASE_URL}/js/common.js`;
+            document.head.appendChild(script);
 
             async function updatePage() {
                 const date = getQueryDate();
-                const data = await loadKanjiData(date);
+                const data = await loadDailyData(date);
 
                 if (data) {
                     const kanji = data.kanji;
@@ -104,15 +96,13 @@
 
                     // Update navigation links
                     const currentDate = new Date(date);
-                    const prevDate = new Date(currentDate);
-                    prevDate.setDate(prevDate.getDate() - 1);
-                    const nextDate = new Date(currentDate);
-                    nextDate.setDate(nextDate.getDate() + 1);
+                    const prevDate = getPreviousDay(date);
+                    const nextDate = getNextDay(date);
 
                     document.getElementById("prevDay").href =
-                        `kanji.html?date=${prevDate.toISOString().split("T")[0]}`;
+                        getKanjiUrl(prevDate);
                     document.getElementById("nextDay").href =
-                        `kanji.html?date=${nextDate.toISOString().split("T")[0]}`;
+                        getKanjiUrl(nextDate);
 
                     // Update page title
                     document.title = `千年 - ${kanji.kanji} (${kanji.meanings[0]})`;
