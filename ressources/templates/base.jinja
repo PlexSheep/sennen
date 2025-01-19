@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>「千年」 -
             {% block title %}Daily Japanese{% endblock %}
         </title>
-        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2/dist/tailwind.min.css"
-              rel="stylesheet" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>{% include "scripts/tailwind.config.js" %}</script>
         <script>
             // Handle dark mode
-            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark')
-            } else {
-                document.documentElement.classList.remove('dark')
-            }
+            document.documentElement.classList.toggle(
+              'dark',
+              localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+            )
         </script>
         <style>
             .dark body {
@@ -30,11 +29,11 @@
             }
         </style>
     </head>
-    <body class="bg-gray-100 transition-colors duration-200">
+    <body class="bg-gray-100 transition-colors duration-200 dark:bg-black">
         <div class="container mx-auto px-4 py-8 h-5/6">
             <nav class="flex justify-between items-center mb-8">
                 <a href="index.html"
-                   class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
+                   class="text-blue-600 dark:text-blue-200 hover:text-blue-800 dark:hover:text-blue-100">
                     {% block nav_text %}千年 - Daily Japanese{% endblock %}
                 </a>
                 <button onclick="toggleDarkMode()"
@@ -91,15 +90,7 @@
                 });
             }
 
-            function toggleDarkMode() {
-                if (document.documentElement.classList.contains('dark')) {
-                    localStorage.theme = 'light'
-                    document.documentElement.classList.remove('dark')
-                } else {
-                    localStorage.theme = 'dark'
-                    document.documentElement.classList.add('dark')
-                }
-            }
+            {% include "scripts/toggle_darkmode.js" %}
 
             async function updatePage() {
                 {% block update_page %}{% endblock %}
