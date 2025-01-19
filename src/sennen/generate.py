@@ -55,7 +55,7 @@ class SiteGenerator:
             # For each writing of the word
             for writing in word.writings:
                 # For each character in the writing
-                for char in writing.base:
+                for char in writing.literal:
                     index[char].append(word)
         return index
 
