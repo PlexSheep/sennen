@@ -21,7 +21,7 @@ def generate(args):
     start_date = datetime.now() - timedelta(
         days=args.days
     )  # make some before today too!
-    generator.generate_site(start_date, args.days * 2)
+    generator.generate_site(start_date, args.days * 2, args.skip_daily)
 
 
 def clean(args):
@@ -72,6 +72,12 @@ def main():
         type=int,
         default=3650,
         help="Number of days to generate into past and future (default: 3650 - 10 years). Very large numbers will slow down the system and be difficult to deploy.",
+    )
+    generate_parser.add_argument(
+        "-s",
+        "--skip-daily",
+        action="store_true",
+        help="Skip generation of daily files",
     )
     generate_parser.set_defaults(func=generate)
 

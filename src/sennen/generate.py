@@ -23,7 +23,6 @@ class SiteGenerator:
         self.ressources_dir = ressources_dir.absolute()
         self.static_dir = self.ressources_dir / "static"
         self.templates_dir = self.ressources_dir / "templates"
-        self.cleanup()
         self.make_dirs()
 
     def make_dirs(self):
@@ -71,7 +70,10 @@ class SiteGenerator:
     def link_ressources(self):
         """Copy static resources to site directory"""
         for item in self.static_dir.iterdir():
-            os.symlink(item, self.site_dir / item.name)
+            try:
+                os.symlink(item, self.site_dir / item.name)
+            except FileExistsError:
+                pass
 
     def seed_from_date(self, date: datetime) -> int:
         date_int = int(date.strftime("%Y%m%d"))
@@ -121,14 +123,17 @@ class SiteGenerator:
 
         print("(i) Generation of daily contents complete.")
 
-    def generate_site(self, start_date: datetime, num_days: int):
+    def generate_site(
+        self, start_date: datetime, num_days: int, skip_daily: bool = False
+    ):
         print("(i) Generating site...")
 
         self.link_ressources()
         self.setup_jinja()
         self.generate_html()
-        self.load_sources()
-        self.generate_daily(start_date, num_days)
+        if not skip_daily:
+            self.load_sources()
+            self.generate_daily(start_date, num_days)
 
         print(
             f"Generation of the site complete. Files saved in {self.site_dir}"
