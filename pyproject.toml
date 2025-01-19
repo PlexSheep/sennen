@@ -8,6 +8,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
 	"requests>=2.31.0", # For downloading dictionaries
+	"jinja2 (>=3.1.5,<4.0.0)",
 ]
 
 [build-system]

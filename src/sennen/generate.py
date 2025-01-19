@@ -1,8 +1,11 @@
 import json
+import shutil
 import os
 import random
 from datetime import datetime, timedelta
 from pathlib import Path
+
+from jinja2 import Environment, FileSystemLoader
 
 from .parse.kanji import Kanji, KanjiParser
 from .parse.word import Word, WordParser
@@ -11,16 +14,17 @@ MAGIC_PRIME_NUMBER: int = 104729
 
 
 class SiteGenerator:
-    def __init__(self, data_dir: Path):
+    def __init__(self, data_dir: Path, ressources_dir: Path):
         self.data_dir = data_dir.absolute()
         self.site_dir = self.data_dir / "site"
         self.api_dir = self.site_dir / "api" / "v1"
         self.api_dir_daily = self.api_dir / "daily"
         self.sources_dir = self.data_dir / "sources"
-        self.ressources_dir = self.data_dir / "ressources"
+        self.ressources_dir = ressources_dir.absolute()
+        self.static_dir = self.ressources_dir / "static"
+        self.templates_dir = self.ressources_dir / "templates"
         self.cleanup()
         self.make_dirs()
-        self.load_sources()
 
     def make_dirs(self):
         self.ressources_dir.mkdir(parents=True, exist_ok=True)
@@ -42,6 +46,33 @@ class SiteGenerator:
         self.all_words = self.worddict.get_all_words()
         print(f"(i) Loaded {len(self.all_words)} words")
 
+    def setup_jinja(self):
+        """Setup Jinja2 environment"""
+        self.jinja_env = Environment(
+            loader=FileSystemLoader(self.templates_dir), autoescape=True
+        )
+
+    def generate_html(self):
+        """Generate HTML files from templates"""
+        templates = {
+            "base.jinja": "base.html",
+            "index.jinja": "index.html",
+            "kanji.jinja": "kanji.html",
+            "word.jinja": "word.html",
+        }
+
+        for template_name, output_name in templates.items():
+            template = self.jinja_env.get_template(template_name)
+            output_path = self.site_dir / output_name
+
+            with output_path.open("w", encoding="utf-8") as f:
+                f.write(template.render(BASE_URL=""))
+
+    def link_ressources(self):
+        """Copy static resources to site directory"""
+        for item in self.static_dir.iterdir():
+            os.symlink(item, self.site_dir / item.name)
+
     def seed_from_date(self, date: datetime) -> int:
         date_int = int(date.strftime("%Y%m%d"))
         return date_int * MAGIC_PRIME_NUMBER
@@ -55,9 +86,7 @@ class SiteGenerator:
         kanji = rng.choice(self.all_kanji)
         return kanji
 
-    def select_word_for_date(
-        self, date: datetime
-    ) -> Word:
+    def select_word_for_date(self, date: datetime) -> Word:
         """
         Select a word for a specific date.
         Uses the date as a seed to ensure consistent selection.
@@ -86,23 +115,20 @@ class SiteGenerator:
             with output_file.open("w", encoding="utf-8") as f:
                 json.dump(daily_data, f, ensure_ascii=False, indent=2)
 
-            p = (float(i) / float(num_days) * 100)
+            p = float(i) / float(num_days) * 100
             if p % 5 == 0:  # Progress indicator
                 print(f"(i) Generated {p:.02f} % of the days...")
 
         print("(i) Generation of daily contents complete.")
 
-    def link_ressources(self):
-        for ressource in self.ressources_dir.iterdir():
-            os.symlink(
-                self.ressources_dir / ressource, self.site_dir / ressource.name
-            )
-
     def generate_site(self, start_date: datetime, num_days: int):
         print("(i) Generating site...")
 
-        self.generate_daily(start_date, num_days)
         self.link_ressources()
+        self.setup_jinja()
+        self.generate_html()
+        self.load_sources()
+        self.generate_daily(start_date, num_days)
 
         print(
             f"Generation of the site complete. Files saved in {self.site_dir}"

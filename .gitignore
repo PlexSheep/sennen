@@ -1,6 +1,5 @@
-# Downloaded data
-data/sources/
-data/site/
+# Downloaded and generated data
+data/
 
 # Python
 __pycache__/

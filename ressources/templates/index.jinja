@@ -1,0 +1,67 @@
+{% extends "base.jinja" %}
+{% block content %}
+    <div class="grid md:grid-cols-2 gap-8">
+        <!-- Today's Kanji Card -->
+        <div id="todayKanji"
+             class="card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-bold mb-4">Today's Kanji</h2>
+            <div id="kanjiContent" class="animate-pulse">
+                <a href="kanji.html"
+                   class="block text-center hover:opacity-80 transition-opacity">
+                    <div class="text-7xl mb-4">読</div>
+                    <div class="text-xl">Loading...</div>
+                </a>
+            </div>
+        </div>
+        <!-- Today's Word Card -->
+        <div id="todayWord"
+             class="card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-bold mb-4">Today's Word</h2>
+            <div id="wordContent" class="animate-pulse">
+                <a href="word.html"
+                   class="block text-center hover:opacity-80 transition-opacity">
+                    <div class="text-4xl mb-2">読み方</div>
+                    <div class="text-xl text-gray-600 dark:text-gray-400 mb-2">よみかた</div>
+                    <div class="text-lg">Loading...</div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Navigation Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+        <a href="#"
+           id="yesterdayLink"
+           class="card bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:shadow-lg transition-shadow">
+            Yesterday's Study
+        </a>
+        <a href="#"
+           id="tomorrowLink"
+           class="card bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:shadow-lg transition-shadow">
+            Tomorrow's Study
+        </a>
+    </div>
+{% endblock %}
+{% block update_page %}
+    const today = new Date();
+    const todayData = await loadDailyData(today);
+    if (todayData) {
+    const kanji = todayData.kanji;
+    document.getElementById("todayContent").innerHTML = `
+    <a href="kanji.html?date=${todayData.date}" class="block">
+        <div class="text-6xl mb-4">${kanji.kanji}</div>
+        <div class="text-xl">${kanji.meanings.join(", ")}</div>
+    </a>
+    `;
+    // Update navigation links
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById("yesterdayLink").href = getKanjiUrl(
+    getPreviousDay(today),
+    );
+    document.getElementById("tomorrowLink").href = getKanjiUrl(
+    getNextDay(today),
+    );
+    }
+{% endblock %}

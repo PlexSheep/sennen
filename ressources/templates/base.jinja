@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>千年 -
+            {% block title %}Daily Japanese{% endblock %}
+        </title>
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2/dist/tailwind.min.css"
+              rel="stylesheet" />
+        <script>
+            // Handle dark mode
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark')
+            } else {
+                document.documentElement.classList.remove('dark')
+            }
+        </script>
+        <style>
+            .dark body {
+                @apply bg-gray-900 text-gray-100;
+            }
+
+            .dark .card {
+                @apply bg-gray-800 shadow-gray-900;
+            }
+
+            .dark .stats {
+                @apply bg-gray-700;
+            }
+        </style>
+    </head>
+    <body class="bg-gray-100 transition-colors duration-200">
+        <div class="container mx-auto px-4 py-8">
+            <nav class="flex justify-between items-center mb-8">
+                <a href="index.html"
+                   class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
+                    {% block nav_text %}千年 - Daily Japanese{% endblock %}
+                </a>
+                <button onclick="toggleDarkMode()"
+                        class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700">
+                    <span class="dark:hidden">🌙</span>
+                    <span class="hidden dark:inline">☀️</span>
+                </button>
+            </nav>
+            {% block content %}{% endblock %}
+        </div>
+        <script>
+            window.BASE_URL = window.location.hostname.endsWith("github.io") ? "/sennen" : "";
+
+            // Load common.js and wait for it
+            function loadCommonJs() {
+                return new Promise((resolve) => {
+                    const script = document.createElement("script");
+                    script.src = `${window.BASE_URL}/js/common.js`;
+                    script.onload = resolve;
+                    document.head.appendChild(script);
+                });
+            }
+
+            function toggleDarkMode() {
+                if (document.documentElement.classList.contains('dark')) {
+                    localStorage.theme = 'light'
+                    document.documentElement.classList.remove('dark')
+                } else {
+                    localStorage.theme = 'dark'
+                    document.documentElement.classList.add('dark')
+                }
+            }
+
+            async function updatePage() {
+                {
+                    % block update_page %
+                } {
+                    %
+                    endblock %
+                }
+            }
+
+            // Initialize page after common.js is loaded
+            async function init() {
+                await loadCommonJs();
+                // Now we can safely call functions from common.js
+                await updatePage();
+            }
+            init();
+        </script>
+        {% block scripts %}{% endblock %}
+    </body>
+</html>

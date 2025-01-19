@@ -8,6 +8,8 @@ from .download_dicts import DictionaryDownloader
 from .generate import SiteGenerator, recursive_remove
 
 data_dir = Path("data")
+ressources_dir = Path("ressources")
+
 
 def download(args):
     downloader = DictionaryDownloader()
@@ -15,13 +17,17 @@ def download(args):
 
 
 def generate(args):
-    generator = SiteGenerator(data_dir)
-    start_date = datetime.now() - timedelta(days=args.days) # make some before today too!
+    generator = SiteGenerator(data_dir, ressources_dir)
+    start_date = datetime.now() - timedelta(
+        days=args.days
+    )  # make some before today too!
     generator.generate_site(start_date, args.days * 2)
+
 
 def clean(args):
     recursive_remove(data_dir / "site")
     recursive_remove(data_dir / "sources")
+
 
 def serve(args):
     site_path = data_dir / "site"
