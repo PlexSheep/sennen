@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.0](https://github.com/PlexSheep/sennen/compare/v0.1.0...v0.2.0) (2025-01-19)
+
+
+### Features
+
+* **ui:** include the actual new sennen logo ([1bef2e5](https://github.com/PlexSheep/sennen/commit/1bef2e5d4d77a7939b5d911aab2b6fda2ee94a3e))
+* **ui:** show version in web ui ([d807d0c](https://github.com/PlexSheep/sennen/commit/d807d0ca81c263ad895621ec3cad311ba11b5ac6))
+
+
+### Documentation
+
+* really fancy readme ([64d6cdd](https://github.com/PlexSheep/sennen/commit/64d6cddbe50283d8eafb96ee727fb31c95fbe288))
+* update readme ([319f468](https://github.com/PlexSheep/sennen/commit/319f468dcfc3753ef04c190cc27914ff345e6fc7))
+
 ## 0.1.0 (2025-01-19)
 
 

@@ -1,6 +1,6 @@
 [project]
 name = "sennen"
-version = "0.3.0"
+version = "0.2.0"
 description = "sennen 「千年」is a static-site-API for daily Japanese Kanji and Words"
 authors = [{ name = "PlexSheep", email = "software@cscherr.de" }]
 license = { text = "MIT" }
