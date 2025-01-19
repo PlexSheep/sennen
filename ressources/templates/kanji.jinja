@@ -3,7 +3,8 @@
 {% block nav_text %}← Back to Home{% endblock %}
 {% block content %}
     <div id="kanjiDetail"
-         class="card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">Loading...</div>
+         class="card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 h-96"
+         style="min-height: 30rem">{% include "components/loading.jinja" %}</div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
         <a href="#"
            id="prevDay"

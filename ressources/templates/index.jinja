@@ -3,26 +3,26 @@
     <div class="grid md:grid-cols-2 gap-8">
         <!-- Today's Kanji Card -->
         <div id="todayKanji"
-             class="card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+             class="card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 min-h-72">
             <h2 class="text-2xl font-bold mb-4">Today's Kanji</h2>
-            <div id="kanjiContent" class="animate-pulse">
+            <div id="kanjiContent" class="">
                 <a href="kanji.html"
                    class="block text-center hover:opacity-80 transition-opacity">
                     <div class="text-7xl mb-4">読</div>
-                    <div class="text-xl">Loading...</div>
+                    {% include "components/loading.jinja" %}
                 </a>
             </div>
         </div>
         <!-- Today's Word Card -->
         <div id="todayWord"
-             class="card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+             class="card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 min-h-72">
             <h2 class="text-2xl font-bold mb-4">Today's Word</h2>
-            <div id="wordContent" class="animate-pulse">
+            <div id="wordContent" class="">
                 <a href="word.html"
                    class="block text-center hover:opacity-80 transition-opacity">
                     <div class="text-4xl mb-2">読み方</div>
                     <div class="text-xl text-gray-600 dark:text-gray-400 mb-2">よみかた</div>
-                    <div class="text-lg">Loading...</div>
+                    {% include "components/loading.jinja" %}
                 </a>
             </div>
         </div>
