@@ -1,0 +1,22 @@
+{% extends "base.jinja" %}
+{% block title %}Word Details{% endblock %}
+{% block nav_text %}← Back to Home{% endblock %}
+{% block content %}
+    <div id="wordDetail"
+         class="card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">Loading...</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+        <a href="#"
+           id="prevDay"
+           class="card bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:shadow-lg transition-shadow text-center">
+            Previous Day
+        </a>
+        <a href="#"
+           id="nextDay"
+           class="card bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:shadow-lg transition-shadow text-center">
+            Next Day
+        </a>
+    </div>
+{% endblock %}
+{% block update_page %}
+    {% include "scripts/word.js" %}
+{% endblock %}

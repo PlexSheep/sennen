@@ -42,26 +42,5 @@
     </div>
 {% endblock %}
 {% block update_page %}
-    const today = new Date();
-    const todayData = await loadDailyData(today);
-    if (todayData) {
-    const kanji = todayData.kanji;
-    document.getElementById("todayContent").innerHTML = `
-    <a href="kanji.html?date=${todayData.date}" class="block">
-        <div class="text-6xl mb-4">${kanji.kanji}</div>
-        <div class="text-xl">${kanji.meanings.join(", ")}</div>
-    </a>
-    `;
-    // Update navigation links
-    const yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    document.getElementById("yesterdayLink").href = getKanjiUrl(
-    getPreviousDay(today),
-    );
-    document.getElementById("tomorrowLink").href = getKanjiUrl(
-    getNextDay(today),
-    );
-    }
+    {% include "scripts/index.js" %}
 {% endblock %}

@@ -10,33 +10,28 @@ function formatDate(date) {
 function getNextDay(date) {
     // Ensure we're working with a Date object
     const current = new Date(date);
+    current.setHours(0, 0, 0, 0);
     if (isNaN(current.getTime())) {
         console.error("Invalid date input:", date);
         return new Date(); // Fallback to current date
     }
 
-    // Add 48 hours
-    // For some reason this is correct
-    const next = new Date(current.getTime() + 2 * 24 * 60 * 60 * 1000);
-
-    // Reset to midnight for consistency
-    next.setHours(0, 0, 0, 0);
+    var next = new Date();
+    next.setDate(current.getDate() + 1);
     return next;
 }
 
 function getPreviousDay(date) {
     // Ensure we're working with a Date object
     const current = new Date(date);
+    current.setHours(0, 0, 0, 0);
     if (isNaN(current.getTime())) {
         console.error("Invalid date input:", date);
         return new Date(); // Fallback to current date
     }
 
-    // Subtract 24 hours
-    const prev = new Date(current.getTime() - 24 * 60 * 60 * 1000);
-
-    // Reset to midnight for consistency
-    prev.setHours(0, 0, 0, 0);
+    var prev = new Date();
+    prev.setDate(current.getDate() - 1);
     return prev;
 }
 
@@ -71,4 +66,43 @@ function getKanjiUrl(date) {
 
 function getHomeUrl() {
     return `${BASE_URL}/index.html`;
+}
+
+function renderFurigana(word, size = "6xl") {
+    if (!word.furigana) {
+        return `
+            <div class="text-${size} mb-4">${word.writings[0]}</div>
+            ${
+                word.readings[0]
+                    ? `
+                <div class="text-xl text-gray-600 dark:text-gray-400 mb-4">${word.readings[0].text}</div>
+            `
+                    : ""
+            }
+        `;
+    }
+
+    return `
+        <div class="relative inline-block text-center leading-loose">
+            <div class="flex justify-center items-end" style="min-height: 1.5em">
+                ${word.furigana
+                    .map((f) => {
+                        if (f.type === "kanji") {
+                            return `
+                            <div class="flex flex-col items-center mx-0.5">
+                                <span class="text-sm text-gray-600 dark:text-gray-400 h-4">${f.reading}</span>
+                                <span class="text-${size}">${f.text}</span>
+                            </div>`;
+                        } else {
+                            return `
+                            <div class="flex flex-col items-center mx-0.5">
+                                <span class="text-sm text-gray-600 dark:text-gray-400 h-4"></span>
+                                <span class="text-${size}">${f.text}</span>
+                            </div>`;
+                        }
+                    })
+                    .join("")}
+            </div>
+        </div>
+    `;
 }

@@ -1,132 +1,22 @@
-<!-- src/sennen/static/kanji.html -->
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>千年 - Kanji Details</title>
-        <link
-            href="https://cdn.jsdelivr.net/npm/tailwindcss@2/dist/tailwind.min.css"
-            rel="stylesheet"
-        />
-    </head>
-    <body class="bg-gray-100">
-        <div class="container mx-auto px-4 py-8">
-            <nav class="mb-8">
-                <a href="index.html" class="text-blue-600 hover:text-blue-800"
-                    >← Back to Home</a
-                >
-            </nav>
-
-            <div id="kanjiDetail" class="bg-white rounded-lg shadow-lg p-8">
-                Loading...
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-                <a
-                    href="#"
-                    id="prevDay"
-                    class="bg-white rounded-lg shadow p-4 hover:shadow-lg transition-shadow text-center"
-                >
-                    Previous Day
-                </a>
-                <a
-                    href="#"
-                    id="nextDay"
-                    class="bg-white rounded-lg shadow p-4 hover:shadow-lg transition-shadow text-center"
-                >
-                    Next Day
-                </a>
-            </div>
-        </div>
-
-        <script>
-            // Define base URL once, will be available for all subsequent scripts
-            window.BASE_URL = window.location.hostname.endsWith("github.io")
-                ? "/sennen" // GitHub Pages
-                : ""; // Any other host
-
-            // Load common.js and wait for it
-            function loadCommonJs() {
-                return new Promise((resolve) => {
-                    const script = document.createElement("script");
-                    script.src = `${window.BASE_URL}/js/common.js`;
-                    script.onload = resolve;
-                    document.head.appendChild(script);
-                });
-            }
-
-            async function updatePage() {
-                const date = getQueryDate();
-                const data = await loadDailyData(date);
-
-                if (data) {
-                    const kanji = data.kanji;
-                    document.getElementById("kanjiDetail").innerHTML = `
-                        <div class="mb-8">
-                            <div class="text-lg font-bold">
-                                Kanji of the day ${date}
-                            </div>
-                        </div>
-
-                        <div class="text-center mb-8">
-                            <div class="text-8xl mb-4">${kanji.kanji}</div>
-                            <div class="text-2xl font-bold">${kanji.meanings.join(", ")}</div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div>
-                                <h3 class="text-lg font-bold mb-2">Kun Readings</h3>
-                                <div class="text-lg">${kanji.kun_readings.join(", ") || "None"}</div>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-bold mb-2">On Readings</h3>
-                                <div class="text-lg">${kanji.on_readings.join(", ") || "None"}</div>
-                            </div>
-                        </div>
-
-                        <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                            <div class="bg-gray-50 p-4 rounded">
-                                <div class="font-bold">Grade</div>
-                                <div>${kanji.grade || "N/A"}</div>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded">
-                                <div class="font-bold">JLPT</div>
-                                <div>N${kanji.jlpt || "N/A"}</div>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded">
-                                <div class="font-bold">Strokes</div>
-                                <div>${kanji.stroke_count}</div>
-                            </div>
-                            <div class="bg-gray-50 p-4 rounded">
-                                <div class="font-bold">Frequency</div>
-                                <div>${kanji.frequency || "N/A"}</div>
-                            </div>
-                        </div>
-                    `;
-
-                    // Update navigation links
-                    const currentDate = new Date(date);
-                    const prevDate = getPreviousDay(date);
-                    const nextDate = getNextDay(date);
-
-                    document.getElementById("prevDay").href =
-                        getKanjiUrl(prevDate);
-                    document.getElementById("nextDay").href =
-                        getKanjiUrl(nextDate);
-
-                    // Update page title
-                    document.title = `千年 - ${kanji.kanji} (${kanji.meanings[0]})`;
-                }
-            }
-
-            // Initialize page after common.js is loaded
-            async function init() {
-                await loadCommonJs();
-                // Now we can safely call functions from common.js
-                await updatePage();
-            }
-            init();
-        </script>
-    </body>
-</html>
+{% extends "base.jinja" %}
+{% block title %}Kanji Details{% endblock %}
+{% block nav_text %}← Back to Home{% endblock %}
+{% block content %}
+    <div id="kanjiDetail"
+         class="card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">Loading...</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+        <a href="#"
+           id="prevDay"
+           class="card bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:shadow-lg transition-shadow text-center">
+            Previous Day
+        </a>
+        <a href="#"
+           id="nextDay"
+           class="card bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:shadow-lg transition-shadow text-center">
+            Next Day
+        </a>
+    </div>
+{% endblock %}
+{% block update_page %}
+    {% include "scripts/kanji.js" %}
+{% endblock %}
