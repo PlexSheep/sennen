@@ -70,8 +70,6 @@ class SiteGenerator:
 
         self.jinja_env.globals.update(self.metadata())
         self.jinja_env.globals.update(dict({"BASE_URL": ""}))
-        print(self.jinja_env.globals)
-        print("PENIS")
 
         for template_name, output_name in templates.items():
             template = self.jinja_env.get_template(template_name)
