@@ -29,12 +29,12 @@
             }
         </style>
     </head>
-    <body class="bg-gray-100 transition-colors duration-200 dark:bg-black">
+    <body class="bg-gray-100 transition-colors duration-200 dark:bg-gray-900 text-neutral-950 dark:text-neutral-50">
         <div class="container mx-auto px-4 py-8 h-5/6">
             <nav class="flex justify-between items-center mb-8">
                 <a href="index.html"
                    class="text-blue-600 dark:text-blue-200 hover:text-blue-800 dark:hover:text-blue-100">
-                    {% block nav_text %}千年 - Daily Japanese{% endblock %}
+                    {% block nav_text %}「千年」 - Daily Japanese{% endblock %}
                 </a>
                 <button onclick="toggleDarkMode()"
                         class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700">
@@ -44,16 +44,16 @@
             </nav>
             {% block content %}{% endblock %}
         </div>
-        <footer class="h-1/6">
+        <footer class="h-1/6 text-neutral-600 dark:text-neutral-400">
             <div class="text-center ">
                 <a href="#"
-                   class="flex items-center justify-center mb-5 text-2xl font-semibold text-gray-900">
+                   class="flex items-center justify-center mb-5 text-2xl font-semibold">
                     <img src="https://www.svgrepo.com/show/217770/m.svg"
                          class="h-12 mr-3 sm:h-9"
                          alt="Sennen Logo">
-                    千年&nbsp;– Sennen
+                    千年
                 </a>
-                <span class="block text-sm text-center text-gray-500">This site is still experimental, especially the furigana. Some Rights Reserved.
+                <span class="block text-sm text-center">This site is still experimental, especially the furigana. Some Rights Reserved.
                     Built with
                     <a href="https://python.org" class="text-purple-600 hover:underline">Python</a>,
                     <a href="https://tailwindcss.com"
