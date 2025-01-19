@@ -33,7 +33,7 @@ class Kanji:
 
     def to_dict(self) -> dict:
         return {
-            "self": self.literal,
+            "kanji": self.literal,
             "meanings": self.meanings,
             "kun_readings": self.kun_readings,
             "on_readings": self.on_readings,
