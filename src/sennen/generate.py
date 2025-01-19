@@ -147,7 +147,7 @@ class SiteGenerator:
             self.generate_daily(start_date, num_days)
 
         print(
-            f"Generation of the site complete. Files saved in {self.site_dir}"
+            f"(i) Generation of the site complete. Files saved in {self.site_dir}"
         )
 
 
