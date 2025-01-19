@@ -1,19 +1,21 @@
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
-from typing import List, Optional
 from pathlib import Path
+from typing import List, Optional
+
+from .common import Meaning, Reading
 
 
 @dataclass
 class Kanji:
     literal: str
-    meanings: List[str]  # English meanings only for now
+    meanings: List[Meaning]  # English meanings only for now
     grade: Optional[int]
     jlpt: Optional[int]
     stroke_count: int
     freq: Optional[int]  # Frequency of use ranking
-    kun_readings: List[str]
-    on_readings: List[str]
+    kun_readings: List[Reading]
+    on_readings: List[Reading]
 
     def is_ok(self) -> bool:
         """
@@ -29,9 +31,34 @@ class Kanji:
             and self.freq is not None
         )
 
+    def to_dict(self) -> dict:
+        return {
+            "self": self.literal,
+            "meanings": self.meanings,
+            "kun_readings": self.kun_readings,
+            "on_readings": self.on_readings,
+            "grade": self.grade,
+            "jlpt": self.jlpt,
+            "stroke_count": self.stroke_count,
+            "frequency": self.freq,
+        }
+
+    def __key(self):
+        return self.literal
+
+    def __hash__(self):
+        return hash(self.__key())
+
+    def __eq__(self, other):
+        if isinstance(other, Kanji):
+            return self.__key() == other.__key()
+        return NotImplemented
+
 
 class KanjiParser:
     def __init__(self, xml_path: Path):
+        if not xml_path.exists():
+            raise FileNotFoundError
         self.tree = ET.parse(xml_path)
         self.root = self.tree.getroot()
 
@@ -101,5 +128,4 @@ class KanjiParser:
         ]
         # Filter out kanji without sufficient learning data
         all = [k for k in all_kanji if k.is_ok()]
-        print(f"(i) loaded {len(all)} kanji")
         return all
