@@ -83,19 +83,19 @@ function renderFurigana(word, size = "6xl", furigana_size = "base") {
     }
 
     return `
-        <div class="relative inline-block text-center leading-loose">
-            <div class="flex justify-center items-end" style="min-height: 1.5em">
+        <div class="relative text-center leading-loose">
+            <div class="flex justify-center items-end self-start" style="min-height: 1.5em">
                 ${word.furigana
                     .map((f) => {
                         if (f.type === "kanji") {
                             return `
-                            <div class="flex flex-col items-center mx-0.5">
+                            <div class="flex flex-col items-center mx-0.5 mb-6">
                                 <span class="text-${furigana_size} text-gray-600 dark:text-gray-400 h-4 mb-2">${f.reading}</span>
                                 <span class="text-${size}">${f.text}</span>
                             </div>`;
                         } else {
                             return `
-                            <div class="flex flex-col items-center mx-0.5">
+                            <div class="flex flex-col items-center mx-0.5 mb-6">
                                 <span class="text-${furigana_size} text-gray-600 dark:text-gray-400 h-4 mb-2"></span>
                                 <span class="text-${size}">${f.text}</span>
                             </div>`;

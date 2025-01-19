@@ -4,27 +4,28 @@
         <!-- Today's Kanji Card -->
         <div id="todayKanji"
              class="card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 min-h-72">
-            <h2 class="text-2xl font-bold mb-4">Today's Kanji</h2>
-            <div id="kanjiContent" class="">
-                <a href="kanji.html"
-                   class="block text-center hover:opacity-80 transition-opacity">
-                    <div class="text-7xl mb-4">読</div>
-                    {% include "components/loading.jinja" %}
-                </a>
-            </div>
+            <a id="kanjiLink"
+               class="block text-center hover:opacity-80 transition-opacity h-full w-full">
+                <h2 class="text-2xl font-bold mb-6">Today's Kanji</h2>
+                <div id="kanjiContent" class="h-full w-full">
+                    <div id="kanjiWriting" class="text-7xl mb-4">読</div>
+                    <div id="kanjiMeaning" class="text-xl">よむ</div>
+                    <div id="kanjiLoad">{% include "components/loading.jinja" %}</div>
+                </div>
+            </a>
         </div>
         <!-- Today's Word Card -->
         <div id="todayWord"
              class="card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 min-h-72">
-            <h2 class="text-2xl font-bold mb-4">Today's Word</h2>
-            <div id="wordContent" class="">
-                <a href="word.html"
-                   class="block text-center hover:opacity-80 transition-opacity">
-                    <div class="text-4xl mb-2">読み方</div>
-                    <div class="text-xl text-gray-600 dark:text-gray-400 mb-2">よみかた</div>
-                    {% include "components/loading.jinja" %}
-                </a>
-            </div>
+            <a id="wordLink"
+               class="block text-center hover:opacity-80 transition-opacity h-full w-full">
+                <h2 class="text-2xl font-bold mb-6">Today's Word</h2>
+                <div id="wordContent" class="h-full w-full">
+                    <div id="wordWriting" class="text-7xl mb-4">読る</div>
+                    <div id="wordMeaning" class="text-xl">よる</div>
+                    <div id="wordLoad">{% include "components/loading.jinja" %}</div>
+                </div>
+            </a>
         </div>
     </div>
     <!-- Navigation Cards -->

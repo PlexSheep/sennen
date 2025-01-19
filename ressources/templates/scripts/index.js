@@ -5,20 +5,22 @@ if (data) {
     const { kanji, word } = data;
 
     // Update Kanji
-    document.getElementById("kanjiContent").innerHTML = `
-        <a href="kanji.html?date=${data.date}" class="block text-center hover:opacity-80 transition-opacity">
-            <div class="text-7xl mb-4">${kanji.kanji}</div>
-            <div class="text-xl">${kanji.meanings.join(", ")}</div>
-        </a>
-    `;
+    document.getElementById("kanjiWriting").innerHTML = kanji.kanji;
+    document.getElementById("kanjiMeaning").innerHTML =
+        kanji.meanings.join(", ");
+    document.getElementById("kanjiLink").href = `kanji.html?date=${data.date}`;
+    document.getElementById("kanjiLoad").remove();
 
     // Update Word
-    document.getElementById("wordContent").innerHTML = `
-        <a href="word.html?date=${data.date}" class="block text-center hover:opacity-80 transition-opacity">
-            ${renderFurigana(word, "4xl")}
-            <div class="text-lg">${word.meanings.map((m) => m.text).join(", ")}</div>
-        </a>
-    `;
+    document.getElementById("wordWriting").innerHTML = renderFurigana(
+        word,
+        "6xl",
+    );
+    document.getElementById("wordMeaning").innerHTML = word.meanings
+        .map((m) => m.text)
+        .join(", ");
+    document.getElementById("wordLink").href = `word.html?date=${data.date}`;
+    document.getElementById("wordLoad").remove();
 
     // Update navigation links
     document.getElementById("yesterdayLink").href = getKanjiUrl(
