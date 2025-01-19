@@ -68,14 +68,14 @@ function getHomeUrl() {
     return `${BASE_URL}/index.html`;
 }
 
-function renderFurigana(word, size = "6xl") {
+function renderFurigana(word, size = "6xl", furigana_size = "base") {
     if (!word.furigana) {
         return `
             <div class="text-${size} mb-4">${word.writings[0]}</div>
             ${
                 word.readings[0]
                     ? `
-                <div class="text-xl text-gray-600 dark:text-gray-400 mb-4">${word.readings[0].text}</div>
+                <div class="text-2xl text-gray-600 dark:text-gray-400 mb-7">${word.readings[0].text}</div>
             `
                     : ""
             }
@@ -90,13 +90,13 @@ function renderFurigana(word, size = "6xl") {
                         if (f.type === "kanji") {
                             return `
                             <div class="flex flex-col items-center mx-0.5">
-                                <span class="text-sm text-gray-600 dark:text-gray-400 h-4">${f.reading}</span>
+                                <span class="text-${furigana_size} text-gray-600 dark:text-gray-400 h-4 mb-2">${f.reading}</span>
                                 <span class="text-${size}">${f.text}</span>
                             </div>`;
                         } else {
                             return `
                             <div class="flex flex-col items-center mx-0.5">
-                                <span class="text-sm text-gray-600 dark:text-gray-400 h-4"></span>
+                                <span class="text-${furigana_size} text-gray-600 dark:text-gray-400 h-4 mb-2"></span>
                                 <span class="text-${size}">${f.text}</span>
                             </div>`;
                         }

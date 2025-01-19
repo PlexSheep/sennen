@@ -11,23 +11,7 @@ if (data) {
         readingDisplay = `
 <div class="relative inline-block text-center leading-loose">
     <div class="flex justify-center items-end" style="min-height: 1.5em">
-        ${word.furigana
-            .map((f) => {
-                if (f.type === "kanji") {
-                    return `
-                    <div class="flex flex-col items-center mx-0.5">
-                        <span class="text-sm text-gray-600 dark:text-gray-400 h-4">${f.reading}</span>
-                        <span class="text-6xl">${f.text}</span>
-                    </div>`;
-                } else {
-                    return `
-                    <div class="flex flex-col items-center mx-0.5">
-                        <span class="text-sm text-gray-600 dark:text-gray-400 h-4"></span>
-                        <span class="text-6xl">${f.text}</span>
-                    </div>`;
-                }
-            })
-            .join("")}
+        ${renderFurigana(word, "6xl")}
     </div>
 </div>`;
     } else {
