@@ -1,11 +1,13 @@
+import importlib.metadata
 import json
-import shutil
 import os
 import random
+import shutil
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, meta
+import jinja2
 
 from .parse.kanji import Kanji, KanjiParser
 from .parse.word import Word, WordParser
@@ -24,6 +26,10 @@ class SiteGenerator:
         self.static_dir = self.ressources_dir / "static"
         self.templates_dir = self.ressources_dir / "templates"
         self.make_dirs()
+
+    def metadata(self) -> dict:
+        version = importlib.metadata.version("sennen")
+        return {"version": f"v{version}"}
 
     def make_dirs(self):
         self.ressources_dir.mkdir(parents=True, exist_ok=True)
@@ -48,7 +54,9 @@ class SiteGenerator:
     def setup_jinja(self):
         """Setup Jinja2 environment"""
         self.jinja_env = Environment(
-            loader=FileSystemLoader(self.templates_dir), autoescape=True
+            loader=FileSystemLoader(self.templates_dir),
+            autoescape=True,
+            undefined=jinja2.StrictUndefined,
         )
 
     def generate_html(self):
@@ -60,12 +68,17 @@ class SiteGenerator:
             "word.jinja": "word.html",
         }
 
+        self.jinja_env.globals.update(self.metadata())
+        self.jinja_env.globals.update(dict({"BASE_URL": ""}))
+        print(self.jinja_env.globals)
+        print("PENIS")
+
         for template_name, output_name in templates.items():
             template = self.jinja_env.get_template(template_name)
             output_path = self.site_dir / output_name
 
             with output_path.open("w", encoding="utf-8") as f:
-                f.write(template.render(BASE_URL=""))
+                f.write(template.render())
 
     def link_ressources(self):
         """Copy static resources to site directory"""
