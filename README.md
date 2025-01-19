@@ -1,7 +1,6 @@
-# sennen 「千年」
-
 <div align="center">
     <img src="ressources/static/img/logo.svg" width="75%" alt="Sennen - Daily Japanese Learning">
+    <h3>「千年」 – sennen</h3>
     <p>
         A modern, minimal Japanese learning platform that delivers daily kanji and vocabulary,
         <br/>
@@ -26,12 +25,12 @@
 ## ✨ Features
 
 - 📆 Daily kanji and words
-- 🎯 Intelligent selection based on JLPT level and frequency
 - 💫 Furigana rendering for kanji compounds
-- 🌓 Dark mode support
+- 🌓 Dark and Light mode support
 - 📱 Responsive design for all devices
-- 🚀 Fast and lightweight static site generation
-- 🔄 10-year calendar with consistent daily content in both directions in time
+- 🚀 Fast and simple static site generation
+- 🔄 10-year calendar with consistent daily content into past and future
+- 📠 JSON API for the daily content
 
 ## 🚀 Quick Start
 
@@ -123,7 +122,6 @@ You may also use the discussions tab if you have any questions.
 For code contributions please make sure to:
 
 - Follow the existing code style
-- Add tests for any new functionality
 - Update documentation as needed
 
 ## 📄 License
@@ -134,6 +132,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - [JMdict/EDICT](http://www.edrdg.org/jmdict/edict.html) and [KANJIDIC](http://www.edrdg.org/kanjidic/kanjidic.html) projects
 - [Electronic Dictionary Research and Development Group](http://www.edrdg.org/)
+- [Tailwind CSS](https://tailwindcss.com)
 - The Japanese language learning community
 
 ---
