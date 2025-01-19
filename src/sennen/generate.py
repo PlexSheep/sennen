@@ -1,10 +1,8 @@
 import json
 import os
 import random
-from collections import defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, List
 
 from .parse.kanji import Kanji, KanjiParser
 from .parse.word import Word, WordParser
@@ -44,47 +42,28 @@ class SiteGenerator:
         self.all_words = self.worddict.get_all_words()
         print(f"(i) Loaded {len(self.all_words)} words")
 
-        print("(i) Building kanji-word index...")
-        self.kanji_word_index = self.build_kanji_word_index()
-        print(f"(i) Index built with {len(self.kanji_word_index)} kanji entries")
-
-    def build_kanji_word_index(self) -> Dict[Kanji, List[Word]]:
-        """Build an index mapping kanji to words containing them."""
-        index = defaultdict(list)
-        for word in self.all_words:
-            # For each writing of the word
-            for writing in word.writings:
-                # For each character in the writing
-                for char in writing.literal:
-                    index[char].append(word)
-        return index
-
     def seed_from_date(self, date: datetime) -> int:
         date_int = int(date.strftime("%Y%m%d"))
         return date_int * MAGIC_PRIME_NUMBER
 
-    def select_kanji_for_date(self, date: datetime, all_kanji: list) -> Kanji:
+    def select_kanji_for_date(self, date: datetime) -> Kanji:
         """
         Select a kanji for a specific date.
         Uses the date as a seed to ensure consistent selection.
         """
-        # Use date as seed for selection
         rng = random.Random(self.seed_from_date(date))
-        kanji = rng.choice(all_kanji)
+        kanji = rng.choice(self.all_kanji)
         return kanji
 
     def select_word_for_date(
-        self, date: datetime, kanji: Kanji, all_words: list
+        self, date: datetime
     ) -> Word:
-        """Select a word for a specific date that contains the daily kanji if possible."""
+        """
+        Select a word for a specific date.
+        Uses the date as a seed to ensure consistent selection.
+        """
         rng = random.Random(self.seed_from_date(date))
-
-        # Get words containing this kanji from our index
-        kanji_words = self.kanji_word_index.get(kanji, [])
-
-        # If we found words with today's kanji, randomly select one
-        # Otherwise, select any word
-        word = rng.choice(kanji_words) if kanji_words else rng.choice(all_words)
+        word = rng.choice(self.all_words)
         return word
 
     def generate_daily(self, start_date: datetime, num_days: int):
@@ -95,8 +74,8 @@ class SiteGenerator:
             current_date = start_date + timedelta(days=i)
             date_str = current_date.strftime("%Y-%m-%d")
 
-            kanji = self.select_kanji_for_date(current_date, self.all_kanji)
-            word = self.select_word_for_date(current_date, kanji, self.all_words)
+            kanji = self.select_kanji_for_date(current_date)
+            word = self.select_word_for_date(current_date)
             daily_data = {
                 "date": date_str,
                 "kanji": kanji.to_dict(),
