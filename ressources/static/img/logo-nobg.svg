@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 260 120"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="logo-nobg.svg"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   width="260"
+   height="120"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="2.0475"
+     inkscape:cx="120.87912"
+     inkscape:cy="35.653236"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg6" />
+  <!-- Background rectangle with rounded corners -->
+  <!-- Gradient definitions -->
+  <defs
+     id="defs4">
+    <linearGradient
+       id="gradient1"
+       x1="3.3481584"
+       y1="-59.969296"
+       x2="69.65625"
+       y2="6.3387971"
+       gradientTransform="scale(0.98920055,1.0109174)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#7aa2f7"
+         id="stop1" />
+      <stop
+         offset="100%"
+         style="stop-color:#bb9af7"
+         id="stop2" />
+    </linearGradient>
+    <linearGradient
+       id="gradient2"
+       x1="83.599091"
+       y1="-60.800228"
+       x2="150.80684"
+       y2="6.4075184"
+       gradientTransform="scale(0.98881456,1.011312)"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0%"
+         style="stop-color:#bb9af7"
+         id="stop3" />
+      <stop
+         offset="100%"
+         style="stop-color:#7aa2f7"
+         id="stop4" />
+    </linearGradient>
+  </defs>
+  <!-- Main title group -->
+  <g
+     transform="translate(53.784,87.504)"
+     id="g5"
+     style="display:inline">
+    <!-- 千 character -->
+    <text
+       x="0"
+       y="0"
+       font-family="'Noto Sans JP', Arial"
+       font-size="72px"
+       fill="url(#gradient1)"
+       font-weight="bold"
+       id="text4"
+       style="fill:url(#gradient1)">千</text>
+    <!-- 年 character -->
+    <text
+       x="80"
+       y="0"
+       font-family="'Noto Sans JP', Arial"
+       font-size="72px"
+       fill="url(#gradient2)"
+       font-weight="bold"
+       id="text5"
+       style="fill:url(#gradient2)">年</text>
+  </g>
+  <!-- Subtitle -->
+</svg>
