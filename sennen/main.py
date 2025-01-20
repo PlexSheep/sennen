@@ -1,6 +1,6 @@
 # src/sennen/main.py
 import argparse
-from datetime import datetime, timedelta
+from datetime import date, timedelta
 from os import system
 from pathlib import Path
 
@@ -18,7 +18,7 @@ def download(args):
 
 def generate(args):
     generator = SiteGenerator(data_dir, ressources_dir)
-    start_date = datetime.now() - timedelta(
+    start_date = date.today() - timedelta(
         days=args.days
     )  # make some before today too!
     generator.generate_site(start_date, args.days * 2, args.skip_daily)

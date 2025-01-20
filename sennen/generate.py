@@ -1,13 +1,13 @@
+import datetime
 import importlib.metadata
 import json
 import os
 import random
-import shutil
-from datetime import datetime, timedelta
+from datetime import date
 from pathlib import Path
 
-from jinja2 import Environment, FileSystemLoader, meta
 import jinja2
+from jinja2 import Environment, FileSystemLoader
 
 from .parse.kanji import Kanji, KanjiParser
 from .parse.word import Word, WordParser
@@ -86,11 +86,11 @@ class SiteGenerator:
             except FileExistsError:
                 pass
 
-    def seed_from_date(self, date: datetime) -> int:
+    def seed_from_date(self, date: date) -> int:
         date_int = int(date.strftime("%Y%m%d"))
         return date_int * MAGIC_PRIME_NUMBER
 
-    def select_kanji_for_date(self, date: datetime) -> Kanji:
+    def select_kanji_for_date(self, date: date) -> Kanji:
         """
         Select a kanji for a specific date.
         Uses the date as a seed to ensure consistent selection.
@@ -99,7 +99,7 @@ class SiteGenerator:
         kanji = rng.choice(self.all_kanji)
         return kanji
 
-    def select_word_for_date(self, date: datetime) -> Word:
+    def select_word_for_date(self, date: date) -> Word:
         """
         Select a word for a specific date.
         Uses the date as a seed to ensure consistent selection.
@@ -108,12 +108,12 @@ class SiteGenerator:
         word = rng.choice(self.all_words)
         return word
 
-    def generate_daily(self, start_date: datetime, num_days: int):
+    def generate_daily(self, start_date: date, num_days: int):
         print("(i) generating daily contents...")
 
         print(f"(i) Generating {num_days} days of content...")
         for i in range(num_days):
-            current_date = start_date + timedelta(days=i)
+            current_date = start_date + datetime.timedelta(days=1)
             date_str = current_date.strftime("%Y-%m-%d")
 
             kanji = self.select_kanji_for_date(current_date)
@@ -135,7 +135,7 @@ class SiteGenerator:
         print("(i) Generation of daily contents complete.")
 
     def generate_site(
-        self, start_date: datetime, num_days: int, skip_daily: bool = False
+        self, start_date: date, num_days: int, skip_daily: bool = False
     ):
         print("(i) Generating site...")
 
