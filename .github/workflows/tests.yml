@@ -27,8 +27,6 @@ jobs:
               run: |
                   pip install -e .
 
-            - name:
-                  Run tests with coverage
-                  # public github actions runners seem to have 4 cpu cores
+            - name: Run tests
               run: |
-                  pytest -N 4
+                  pytest
