@@ -8,31 +8,15 @@ function formatDate(date) {
 }
 
 function getNextDay(date) {
-    // Ensure we're working with a Date object
-    const current = new Date(date);
-    current.setHours(0, 0, 0, 0);
-    if (isNaN(current.getTime())) {
-        console.error("Invalid date input:", date);
-        return new Date(); // Fallback to current date
-    }
-
-    var next = new Date();
-    next.setDate(current.getDate() + 1);
-    return next;
+    var d = new Date(date);
+    d.setDate(d.getDate() + 1);
+    return d;
 }
 
 function getPreviousDay(date) {
-    // Ensure we're working with a Date object
-    const current = new Date(date);
-    current.setHours(0, 0, 0, 0);
-    if (isNaN(current.getTime())) {
-        console.error("Invalid date input:", date);
-        return new Date(); // Fallback to current date
-    }
-
-    var prev = new Date();
-    prev.setDate(current.getDate() - 1);
-    return prev;
+    var d = new Date(date);
+    d.setDate(d.getDate() - 1);
+    return d;
 }
 
 // API functions
