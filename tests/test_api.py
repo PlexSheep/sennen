@@ -68,19 +68,37 @@ def test_site_generation(generated_site):
 
 
 def test_site_responses(http_server):
-    """Test that key pages return HTTP 200"""
-    pages = [
+    """Test that key pages return HTTP 200 and that unwanted pages return HTTP 4XX"""
+    wanted_pages = [
         "",  # Root/index
         "index.html",
         "kanji.html",
         "word.html",
-        "api/v1/daily/2024-01-01.json",
+        "img/logo.svg",
+        "js/common.js",
+        "api/v1/daily/2025-01-01.json",
+        "api/v1/daily/2025-12-31.json",
+        "api/v1/daily/2025-09-01.json",
+        "api/v1/daily/2025-09-30.json",
+    ]
+    unwanted_pages = [
+        "base.html",
+        "api/v1/daily/1970-01-01.json",
+        "api/v1/daily/2970-01-01.json",
+        "api/v1/daily/2026-02-30.json",
+        "api/v1/daily/2025-09-31.json",
     ]
 
-    for page in pages:
+    for page in wanted_pages:
         url = f"{http_server}/{page}"
         response = requests.get(url)
         assert response.status_code == 200, f"Failed to load {url}"
+    for page in unwanted_pages:
+        url = f"{http_server}/{page}"
+        response = requests.get(url)
+        assert 400 <= response.status_code < 500, (
+            f"Unwanted Page did not fail to load {url}"
+        )
 
 
 @pytest.mark.skip(
