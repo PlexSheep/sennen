@@ -3,9 +3,10 @@ import os
 import tempfile
 import threading
 import time
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
+from _pytest.outcomes import skip
 import pytest
 
 from sennen.download_dicts import DictionaryDownloader
@@ -48,17 +49,14 @@ def data_sources(temp_data_dir):
 
 
 @pytest.fixture(scope="session")
-def pyproject_toml(temp_data_dir):
-    """copy the pyproject.toml to the data temp dir so that metadata detection can work"""
-    os.link(Path("./pyproject.toml"), temp_data_dir / "pyproject.toml")
-
-
-@pytest.fixture(scope="session")
-def generated_site(temp_data_dir, data_sources, pyproject_toml):
+def generated_site(temp_data_dir, data_sources):
     """Generate a test site"""
-    generator = SiteGenerator(temp_data_dir, Path("ressources"))
+    generator = SiteGenerator(temp_data_dir, Path("ressources"), verbose=True)
+    days = 3650
     generator.generate_site(
-        start_date=date(year=2024, month=1, day=1), num_days=10
+        start_date=date(year=2025, month=1, day=1) - timedelta(days=days),
+        num_days=days * 2,
+        skip_daily=False,
     )
     yield generator.site_dir
 
