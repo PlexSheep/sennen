@@ -16,7 +16,7 @@ VERSION: str = "0.2.0"
 
 
 class SiteGenerator:
-    def __init__(self, data_dir: Path, ressources_dir: Path):
+    def __init__(self, data_dir: Path, ressources_dir: Path, verbose=False):
         self.data_dir = data_dir.absolute()
         self.site_dir = self.data_dir / "site"
         self.api_dir = self.site_dir / "api" / "v1"
@@ -25,6 +25,7 @@ class SiteGenerator:
         self.ressources_dir = ressources_dir.absolute()
         self.static_dir = self.ressources_dir / "static"
         self.templates_dir = self.ressources_dir / "templates"
+        self.verbose = verbose
         self.make_dirs()
 
     def metadata(self) -> dict:
@@ -111,8 +112,9 @@ class SiteGenerator:
         print("(i) generating daily contents...")
 
         print(f"(i) Generating {num_days} days of content...")
+        current_date = start_date
         for i in range(num_days):
-            current_date = start_date + datetime.timedelta(days=1)
+            current_date += datetime.timedelta(days=1)
             date_str = current_date.strftime("%Y-%m-%d")
 
             kanji = self.select_kanji_for_date(current_date)
@@ -128,8 +130,10 @@ class SiteGenerator:
                 json.dump(daily_data, f, ensure_ascii=False, indent=2)
 
             p = float(i) / float(num_days) * 100
-            if p % 5 == 0:  # Progress indicator
+            if not self.verbose and p % 5 == 0:  # Progress indicator
                 print(f"(i) Generated {p:.02f} % of the days...")
+            if self.verbose:
+                print(f"(i) Generated {output_file.absolute()}")
 
         print("(i) Generation of daily contents complete.")
 
