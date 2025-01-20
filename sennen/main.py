@@ -13,6 +13,10 @@ data_dir = Path("data")
 ressources_dir = Path("ressources")
 
 
+def version():
+    print(f"sennen v{VERSION}")
+
+
 def download(args):
     downloader = DictionaryDownloader()
     downloader.download_all_unless_exists()
@@ -43,8 +47,15 @@ def main():
         description="sennen 「千年」- Daily Japanese Kanji and Words"
     )
 
+    parser.add_argument(
+        "-v",
+        "--version",
+        action="store_true",
+        help="show version and quit",
+    )
+
     subparsers = parser.add_subparsers(
-        title="Commands", dest="command", required=True
+        title="Commands", dest="command", required=False
     )
 
     # Download command
@@ -84,7 +95,14 @@ def main():
     generate_parser.set_defaults(func=generate)
 
     args = parser.parse_args()
-    args.func(args)
+    if args.version:
+        version()
+    else:
+        try:
+            args.func(args)
+        except AttributeError:
+            parser.print_usage()
+            exit(1)
 
 
 if __name__ == "__main__":
