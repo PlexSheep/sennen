@@ -8,7 +8,10 @@
     </p>
     <br/>
     <a href="https://github.com/PlexSheep/sennen/actions">
-        <img src="https://img.shields.io/github/actions/workflow/status/PlexSheep/sennen/deploy.yml?label=CI" alt="CI Status"/>
+        <img src="https://img.shields.io/github/actions/workflow/status/PlexSheep/sennen/tests.yml?label=CI" alt="CI Status"/>
+    </a>
+    <a href="https://github.com/PlexSheep/sennen/actions">
+        <img src="https://img.shields.io/github/actions/workflow/status/PlexSheep/sennen/deployment.yml?label=Deploy" alt="Deploy Status"/>
     </a>
     <a href="https://github.com/PlexSheep/sennen/blob/main/LICENSE">
         <img src="https://img.shields.io/github/license/PlexSheep/sennen" alt="License"/>
@@ -122,6 +125,7 @@ You may also use the discussions tab if you have any questions.
 For code contributions please make sure to:
 
 - Follow the existing code style
+- Add Tests for new features and make sure no Tests break
 - Update documentation as needed
 
 ## 📄 License
