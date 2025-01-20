@@ -1,6 +1,7 @@
 import gzip
-import requests
 from pathlib import Path
+
+import requests
 
 
 class DictionaryDownloader:
@@ -44,7 +45,14 @@ class DictionaryDownloader:
             all_exist &= (self.data_dir / fname).exists()
 
         if not all_exist:
+            print(
+                "(i) not all data sources were found locally, downloading the sources..."
+            )
             self.download_all()
+        else:
+            print(
+                "(i) all data sources were found locally, skipping the download"
+            )
 
     def download_all(self):
         self.ensure_data_directory()
