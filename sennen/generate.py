@@ -62,7 +62,6 @@ class SiteGenerator:
     def generate_html(self):
         """Generate HTML files from templates"""
         templates = {
-            "base.jinja": "base.html",
             "index.jinja": "index.html",
             "kanji.jinja": "kanji.html",
             "word.jinja": "word.html",
