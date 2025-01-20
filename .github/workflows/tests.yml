@@ -27,12 +27,8 @@ jobs:
               run: |
                   pip install -e .
 
-            - name: Run tests with coverage
+            - name:
+                  Run tests with coverage
+                  # public github actions runners seem to have 4 cpu cores
               run: |
-                  pytest --cov=sennen tests/ --cov-report=xml
-
-            - name: Upload coverage to Codecov
-              uses: codecov/codecov-action@v3
-              with:
-                  file: ./coverage.xml
-                  fail_ci_if_error: true
+                  pytest -N 4
