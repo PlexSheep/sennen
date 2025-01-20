@@ -13,7 +13,7 @@ ressources_dir = Path("ressources")
 
 def download(args):
     downloader = DictionaryDownloader()
-    downloader.download_all()
+    downloader.download_all_unless_exists()
 
 
 def generate(args):

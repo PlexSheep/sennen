@@ -7,8 +7,8 @@ class DictionaryDownloader:
     def __init__(self):
         self.data_dir = Path("data/sources")
         self.urls = {
-            "JMdict": "http://ftp.edrdg.org/pub/Nihongo/JMdict_e.gz",
-            "KANJIDIC": "http://www.edrdg.org/kanjidic/kanjidic2.xml.gz",
+            "jmdict.xml": "http://ftp.edrdg.org/pub/Nihongo/JMdict_e.gz",
+            "kanjidic.xml": "http://www.edrdg.org/kanjidic/kanjidic2.xml.gz",
         }
 
     def ensure_data_directory(self):
@@ -37,13 +37,21 @@ class DictionaryDownloader:
         gz_path.unlink()
         return output_path
 
+    def download_all_unless_exists(self):
+        all_exist = True
+        all_exist &= self.data_dir.exists()
+        for fname in self.urls.keys():
+            all_exist &= (self.data_dir / fname).exists()
+
+        if not all_exist:
+            self.download_all()
+
     def download_all(self):
         self.ensure_data_directory()
 
         for name, url in self.urls.items():
-            output_filename = f"{name.lower()}.xml"
             try:
-                path = self.download_file(url, output_filename)
+                path = self.download_file(url, name)
                 print(
                     f"(i) Successfully downloaded and extracted {name} to {path}"
                 )
