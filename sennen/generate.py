@@ -1,5 +1,4 @@
 import datetime
-import importlib.metadata
 import json
 import os
 import random
@@ -13,6 +12,7 @@ from .parse.kanji import Kanji, KanjiParser
 from .parse.word import Word, WordParser
 
 MAGIC_PRIME_NUMBER: int = 104729
+VERSION: str = "0.2.0"
 
 
 class SiteGenerator:
@@ -28,8 +28,7 @@ class SiteGenerator:
         self.make_dirs()
 
     def metadata(self) -> dict:
-        version = importlib.metadata.version("sennen")
-        return {"version": f"v{version}"}
+        return {"version": f"v{VERSION}"}
 
     def make_dirs(self):
         self.ressources_dir.mkdir(parents=True, exist_ok=True)
