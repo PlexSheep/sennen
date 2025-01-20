@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.3.0](https://github.com/PlexSheep/sennen/compare/v0.2.0...v0.3.0) (2025-01-20)
+
+
+### Features
+
+* **cli:** add -v version flag [#27](https://github.com/PlexSheep/sennen/issues/27) ([35112e0](https://github.com/PlexSheep/sennen/commit/35112e02c3cf7a467d4b31f0b4c41b7324c72dd8))
+* print information in download_all_unless_exists ([9b857bc](https://github.com/PlexSheep/sennen/commit/9b857bc046a10cc66d333a24171203e3234c979b))
+
+
+### Bug Fixes
+
+* do not generate a base.html output file ([84dac0c](https://github.com/PlexSheep/sennen/commit/84dac0c2b99aa06ea801a99ac8bb3b52889aa198))
+* dont use multiple cpus in test ci ([97bccc0](https://github.com/PlexSheep/sennen/commit/97bccc08a20d7f106f0dfd26681405d4dfc9d87c))
+* generation handled date wrongly ([ed81eaa](https://github.com/PlexSheep/sennen/commit/ed81eaa336d1c902206dccc638c1cdf446010eb4))
+* getNextDay and getPreviousDay were behaving weirdly again, so now the should theoretically REALLY REALLY work [#22](https://github.com/PlexSheep/sennen/issues/22) ([79f9902](https://github.com/PlexSheep/sennen/commit/79f9902cb87c46fee6198775953a97fd69579f53))
+
+
+### Documentation
+
+* fix typo in readme link ([0b47056](https://github.com/PlexSheep/sennen/commit/0b47056368e783e65095c2184a3850072833341b))
+* update readme for new test ci and add a note for tests in the contributing section ([516390a](https://github.com/PlexSheep/sennen/commit/516390ab885f5789836d99f889f9abd36256de3d))
+
 ## [0.2.0](https://github.com/PlexSheep/sennen/compare/v0.1.0...v0.2.0) (2025-01-19)
 
 
