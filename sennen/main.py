@@ -6,8 +6,8 @@ from pathlib import Path
 
 from .download_dicts import DictionaryDownloader
 from .generate import SiteGenerator, recursive_remove
+from .conf import VERSION
 
-VERSION: str = "0.3.0"
 
 data_dir = Path("data")
 ressources_dir = Path("ressources")

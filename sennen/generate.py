@@ -8,7 +8,7 @@ from pathlib import Path
 import jinja2
 from jinja2 import Environment, FileSystemLoader
 
-from .main import VERSION
+from .conf import VERSION
 from .parse.kanji import Kanji, KanjiParser
 from .parse.word import Word, WordParser
 
