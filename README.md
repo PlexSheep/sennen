@@ -11,7 +11,7 @@
         <img src="https://img.shields.io/github/actions/workflow/status/PlexSheep/sennen/tests.yml?label=CI" alt="CI Status"/>
     </a>
     <a href="https://github.com/PlexSheep/sennen/actions">
-        <img src="https://img.shields.io/github/actions/workflow/status/PlexSheep/sennen/deployment.yml?label=Deploy" alt="Deploy Status"/>
+        <img src="https://img.shields.io/github/actions/workflow/status/PlexSheep/sennen/deploy.yml?label=Deploy" alt="Deploy Status"/>
     </a>
     <a href="https://github.com/PlexSheep/sennen/blob/main/LICENSE">
         <img src="https://img.shields.io/github/license/PlexSheep/sennen" alt="License"/>
