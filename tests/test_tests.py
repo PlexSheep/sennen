@@ -5,7 +5,7 @@ import pytest  # noqa: F401 do not remove this import. This is needed for pytest
 
 import sennen  # noqa: F401
 
-# Note: these weird arguments are an indicator of what should be dome before. For example,
+# Note: these weird arguments are an indicator of what should be done before. For example,
 # `temp_data_dir` is a function in `conftest.py`. If we put it in the arguments, it seems
 # to run before our test, and the return value becomes a local.
 #
