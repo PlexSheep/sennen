@@ -6,7 +6,6 @@ import time
 from datetime import date, timedelta
 from pathlib import Path
 
-from _pytest.outcomes import skip
 import pytest
 
 from sennen.download_dicts import DictionaryDownloader
